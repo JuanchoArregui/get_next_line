@@ -6,16 +6,11 @@
 /*   By: jarregui <jarregui@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:02:50 by jarregui          #+#    #+#             */
-/*   Updated: 2023/08/22 15:03:33 by jarregui         ###   ########.fr       */
+/*   Updated: 2023/08/22 15:35:14 by jarregui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-
-
-
-#include <stdio.h>
-#include <fcntl.h>
+#include "get_next_line.h"
 
 // char	*ft_read_to_left_str(int fd, char *left_str)
 // {

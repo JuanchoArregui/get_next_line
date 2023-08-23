@@ -6,26 +6,26 @@
 /*   By: jarregui <jarregui@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:02:50 by jarregui          #+#    #+#             */
-/*   Updated: 2023/08/22 22:39:54 by jarregui         ###   ########.fr       */
+/*   Updated: 2023/08/23 20:32:09 by jarregui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-// char	*get_next_line(int fd)
-// {
-// 	char		*line;
-// 	static char	*read_content;
+char	*get_next_line(int fd)
+{
+	char		*line;
+	static char	*read_content;
 
-// 	if (fd < 0 || BUFFER_SIZE <= 0)
-// 		return (0);
-// 	read_content = ft_read_feeding(fd, read_content);
-// 	if (!read_content)
-// 		return (NULL);
-// 	// line = ft_get_line(read_content);
-// 	// read_content = ft_new_left_str(read_content);
-// 	return (line);
-// }
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (0);
+	read_content = read_until_new_or_end_line(fd, read_content);
+	if (!read_content)
+		return (NULL);
+	// line = ft_get_line(read_content);
+	// read_content = ft_new_left_str(read_content);
+	return (line);
+}
 
 
 
@@ -53,7 +53,7 @@ int	main(void)
 	// close(fd1);
 	
 	fd1 = open("tests/test_2.txt", O_RDONLY);
-	read_content = ft_read_feeding(fd1, read_content);
+	read_content = read_until_new_or_end_line(fd1, read_content);
 
 	close(fd1);
 

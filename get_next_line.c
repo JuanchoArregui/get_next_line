@@ -6,7 +6,7 @@
 /*   By: jarregui <jarregui@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:02:50 by jarregui          #+#    #+#             */
-/*   Updated: 2023/08/23 20:32:09 by jarregui         ###   ########.fr       */
+/*   Updated: 2023/08/23 22:50:55 by jarregui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*get_next_line(int fd)
 {
-	char		*line;
+	// char		*line;
 	static char	*read_content;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
@@ -24,7 +24,9 @@ char	*get_next_line(int fd)
 		return (NULL);
 	// line = ft_get_line(read_content);
 	// read_content = ft_new_left_str(read_content);
-	return (line);
+
+	return (read_content);
+	// return (line);
 }
 
 
@@ -33,16 +35,21 @@ char	*get_next_line(int fd)
 
 int	main(void)
 {
-	// char	*line;
+	char	*line;
 	int		i;
-	int		bytes_leidos;
+	// int		bytes_leidos;
 	int		fd1;
 	int		fd2;
 	int		fd3;
-	char	buff[1024];
-	static char	*read_content;
+	// char	buff[1024];
+	// static char	*read_content;
 
-	// fd1 = open("tests/test_2.txt", O_RDONLY);
+
+	fd1 = open("tests/test_2.txt", O_RDONLY);
+	fd2 = open("tests/test_2.txt", O_RDONLY);
+	fd3 = open("tests/test_3.txt", O_RDONLY);
+
+
 	// i = 1;
 	// while (i < 10)
 	// {
@@ -51,37 +58,40 @@ int	main(void)
 	// 	i++;
 	// }
 	// close(fd1);
+
 	
-	fd1 = open("tests/test_2.txt", O_RDONLY);
-	read_content = read_until_new_or_end_line(fd1, read_content);
+	
+	// fd1 = open("tests/test_2.txt", O_RDONLY);
+	// read_content = read_until_new_or_end_line(fd1, read_content);
 
-	close(fd1);
+	// close(fd1);
 
 
-	//i = 1;
-	// while (i < 7)
-	// {
+
+	i = 1;
+	while (i < 7)
+	{
+		line = get_next_line(fd2);
+		printf("line [%02d]: %s", i, line);
+		free(line);
+
 		
-	// 	fd2 = open("tests/test_2.txt", O_RDONLY);
-	// 	fd3 = open("tests/test_3.txt", O_RDONLY);
-	// 	// line = get_next_line(fd1);
-	// 	// printf("line [%02d]: %s", i, line);
-	// 	// free(line);
-	// 	// line = get_next_line(fd2);
-	// 	// printf("line [%02d]: %s", i, line);
-	// 	// free(line);
-	// 	// line = get_next_line(fd3);
-	// 	// printf("line [%02d]: %s", i, line);
-	// 	// free(line);
-	// 	i++;
-	// 	printf("\nFile descriptor fd1: %d", fd1);
-	// 	printf("\nFile descriptor fd2: %d", fd2);
-	// 	printf("\nFile descriptor fd3: %d", fd3);
-	// 	printf("\n");
+		// line = get_next_line(fd1);
+		// printf("line [%02d]: %s", i, line);
+		// free(line);
+		// 
+		// line = get_next_line(fd3);
+		// printf("line [%02d]: %s", i, line);
+		// free(line);
+		// printf("\nFile descriptor fd1: %d", fd1);
+		// printf("\nFile descriptor fd2: %d", fd2);
+		// printf("\nFile descriptor fd3: %d", fd3);
+		// printf("\n");
 
-	// 	close(fd1);
-	// 	close(fd2);
-	// 	close(fd3);
-	// }
-	// return (0);
+		i++;
+	}
+	close(fd1);
+	close(fd2);
+	close(fd3);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jarregui <jarregui@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:02:50 by jarregui          #+#    #+#             */
-/*   Updated: 2023/08/23 22:50:55 by jarregui         ###   ########.fr       */
+/*   Updated: 2023/09/07 12:12:46 by jarregui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,16 @@
 
 char	*get_next_line(int fd)
 {
-	// char		*line;
-	static char	*read_content;
+	char		*next_line;
+	static char	*following;
 
+	next_line = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (0);
-	read_content = read_until_new_or_end_line(fd, read_content);
-	if (!read_content)
+	next_line = read_until_new_or_end_line(fd, next_line, following);
+	if (!next_line)
 		return (NULL);
-	// line = ft_get_line(read_content);
-	// read_content = ft_new_left_str(read_content);
-
-	return (read_content);
-	// return (line);
+	return (next_line);
 }
 
 
@@ -72,7 +69,7 @@ int	main(void)
 	while (i < 7)
 	{
 		line = get_next_line(fd2);
-		printf("line [%02d]: %s", i, line);
+		printf("\nline [%02d]: %s", i, line);
 		free(line);
 
 		

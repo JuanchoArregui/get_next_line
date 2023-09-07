@@ -6,29 +6,51 @@
 /*   By: jarregui <jarregui@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:26:31 by jarregui          #+#    #+#             */
-/*   Updated: 2023/08/23 22:53:59 by jarregui         ###   ########.fr       */
+/*   Updated: 2023/09/07 12:49:29 by jarregui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	find_new_or_end_line(char *s, int rd_bytes)
+int	find_new_or_end_line(char *s, int rd_bytes, char *following)
 {
 	int	i;
+	int	f;
+	int	following_lenth;
 
 	i = 0;
+	f = 0;
 	while (i < rd_bytes)
 	{
-		if (s[i] == '\0' || s[i] == '\n')
+		if (s[i] == '\0')
 			return (1);
+		if (s[i] == '\n')
+		{
+			following_lenth = rd_bytes - i;
+			if (following_lenth > 1)
+			{
+				following = malloc((following_lenth ) * sizeof(char));
+				if (!following)
+					return (-1);
+				while (i < rd_bytes)
+				{
+					following[f] = s[i];
+					i++;
+					f++;
+				}
+				following[following_lenth] = '\0';
+			}
+			return (1);
+		}
 		i++;
 	}
 	return (0);
 }
 
-char	*read_until_new_or_end_line(int fd, char *read_content)
+char	*read_until_new_or_end_line(int fd, char *next_line, char *following)
 {
-	printf("\nread_until_new_or_end_line");
+	printf("\n");
+	printf("\n");
 	
 	char	*buff;
 	int		rd_bytes;
@@ -39,17 +61,44 @@ char	*read_until_new_or_end_line(int fd, char *read_content)
 	buff = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buff)
 		return (NULL);
-	printf("\n--->new_or_end_line: %i", new_or_end_line);
-	printf("\n--->rd_bytes: %i", rd_bytes);
+	if (following)
+	{
+		next_line = following;
+		printf("\n--->following: %s", following);
+	}
+	else
+		printf("\n--->NO following");
+
+
+	// {
+	// 	if (!next_line)
+	// 	{
+	// 		next_line = (char *)malloc(1 * sizeof(char));
+	// 		if (!next_line)
+	// 			return (NULL);
+	// 		next_line[0] = '\0';
+	// 	}
+	// 	next_line = ft_read_join(following, next_line);
+	// }
 
 	while (!new_or_end_line && rd_bytes > 0)
 	{
 		rd_bytes = read(fd, buff, BUFFER_SIZE);
 		if (rd_bytes == -1)
+		{
+			printf("\nERROR no rd_bytes");
 			return (free(buff), NULL);
+		}
+
 		buff[rd_bytes] = '\0';
-		new_or_end_line = find_new_or_end_line(buff, rd_bytes);
-		read_content = ft_strjoin(read_content, buff);
+		printf("\n--------->buff: %s", buff);
+		printf("\n--------->next_line: %s", next_line);
+		printf("\n--------->");
+
+		new_or_end_line = find_new_or_end_line(buff, rd_bytes, following);
+		if (new_or_end_line == -1)
+			return (NULL);
+		next_line = ft_read_join(next_line, buff);
 
 
 		// printf("\nbuff: %s", buff);
@@ -57,32 +106,29 @@ char	*read_until_new_or_end_line(int fd, char *read_content)
 		// printf("\nread_content: %s", read_content);
 		// printf("\n");
 	}
-	free(buff);
-	return (read_content);
+	return (free(buff), next_line);
 }
 
-char	*ft_strjoin(char *read_content, char *buff)
+char	*ft_read_join(char *next_line, char *buff)
 {
-	// printf("\n\nft_strjoin, %s, %s",read_content, buff );
-	
 	size_t	i;
 	size_t	j;
 	size_t	total_length;
 	char	*str;
 
-	// if (!read_content)
-	// {
-	// 	read_content = (char *)malloc(1 * sizeof(char));
-	// 	read_content[0] = '\0';
-	// printf("\nPRIMERA VEZ!!!!!!!!!!!!");
-
-	// }
 	if (!buff)
 		return (NULL);
-	if (!read_content)
+	if (!next_line)
+	{
+		next_line = (char *)malloc(1 * sizeof(char));
+		if (!next_line)
+			return (NULL);
+		next_line[0] = '\0';
+		printf("\nPRIMERA VEZ!!!!!!!!!!!!");
 		total_length = ft_strlen(buff) + 1;
+	}
 	else
-		total_length = ft_strlen(read_content) + ft_strlen(buff) + 1;
+		total_length = ft_strlen(next_line) + ft_strlen(buff) + 1;
 	// printf("\ntotal_length: %zu", total_length);
 	
 	
@@ -92,17 +138,17 @@ char	*ft_strjoin(char *read_content, char *buff)
 	i = 0;
 	j = 0;
 	//esto para el posible contenido previo
-	if (read_content)
+	printf("\nOLD --> %s", next_line);
+	while (next_line[i] != '\0')
 	{
-		// printf("\nOLD --> %s", read_content);
-		while (read_content[i] != '\0')
-		{
-			// printf("\ni: %zu", i);
-			str[i] = read_content[i];
-			i++;
-			// printf(" - %s", str);
-		}
+		// printf("\ni: %zu", i);
+		str[i] = next_line[i];
+		i++;
+		// printf(" - %s", str);
 	}
+	free(next_line);
+
+
 	//esto es para el nuevo contenido
 	// printf("\nNEW");
 	while (buff[j] != '\0' && buff[j] != '\n')
@@ -113,10 +159,6 @@ char	*ft_strjoin(char *read_content, char *buff)
 	}
 	
 	str[i] = '\0';
-	// str[ft_strlen(read_content) + ft_strlen(buff)] = '\0';
-	if (read_content)
-		free(read_content);
-
 	return (str);
 }
 

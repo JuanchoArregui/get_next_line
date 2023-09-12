@@ -6,7 +6,7 @@
 /*   By: jarregui <jarregui@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:02:50 by jarregui          #+#    #+#             */
-/*   Updated: 2023/09/12 12:35:15 by jarregui         ###   ########.fr       */
+/*   Updated: 2023/09/12 14:29:51 by jarregui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,37 @@
 
 char	*get_next_line(int fd)
 {
-	char		*ptrToLine;
-	static char	*ptrToNext;
+	char		*ptr_line;
+	static char	*ptr_next;
 
-	ptrToLine = NULL;
+	ptr_line = NULL;
+	printf("\n inicializandoget_next_line y checando ptr_next POINTER-----> %p", ptr_next);
+	if (ptr_next)
+		printf("\n inicializandoget_next_line y checando ptr_next STRING-----> %s", ptr_next);
+
+	if (ptr_next != NULL && ft_strlen(ptr_next) > 0)
+	{
+		// i = 0;
+		// ptr_line = malloc((ft_strlen(ptr_next) + 1) * sizeof(char));
+		// while (i < ft_strlen(ptr_next) + 1)
+		// {
+		// 	ptr_line[i] = ptr_next[i];
+		// 	i++;
+		// }
+		// ptr_line[i] = '\0';
+		printf("\n EXISTE FOLLOWING-----> %s", ptr_next);
+		// free(ptr_next);
+		// ptr_next = NULL;
+	}
+
+
+
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (0);
-	ptrToLine = read_until_new_or_end_line(fd, ptrToLine, ptrToNext);
-	if (!ptrToLine)
+	ptr_line = read_until_new_or_end_line(fd, &ptr_line, &ptr_next);
+	if (!ptr_line)
 		return (NULL);
-	return (ptrToLine);
+	return (ptr_line);
 }
 
 

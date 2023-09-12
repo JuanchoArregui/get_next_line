@@ -6,7 +6,7 @@
 /*   By: jarregui <jarregui@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:27:04 by jarregui          #+#    #+#             */
-/*   Updated: 2023/09/07 18:46:18 by jarregui         ###   ########.fr       */
+/*   Updated: 2023/09/12 12:35:45 by jarregui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@
 # include <stdio.h>//this allows PRINTF function
 
 char	*get_next_line(int fd);
-int		find_new_or_end_line(char *s, int rd_bytes, char **following);
-char	*read_until_new_or_end_line(int fd, char *next_line, char **following);
+int		find_new_or_end_line(char *s, int rd_bytes, char *ptrToNext);
+char	*read_until_new_or_end_line(int fd, char *ptrToLine, char *ptrToNext);
 size_t	ft_strlen(char *s);
-char	*ft_read_join(char *next_line, char *buff);
+char	*ft_read_join(char *ptrToLine, char *buff);
 
 #endif

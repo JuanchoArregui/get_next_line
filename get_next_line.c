@@ -6,7 +6,7 @@
 /*   By: jarregui <jarregui@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:02:50 by jarregui          #+#    #+#             */
-/*   Updated: 2023/09/07 18:49:26 by jarregui         ###   ########.fr       */
+/*   Updated: 2023/09/12 12:35:15 by jarregui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,69 +14,17 @@
 
 char	*get_next_line(int fd)
 {
-	char		*next_line;
-	static char	*following;
+	char		*ptrToLine;
+	static char	*ptrToNext;
 
-	next_line = NULL;
-
-	// following = malloc(2 * sizeof(char));
-	// if (!following)
-	// 	return (NULL);
-	// following[0] = 'k';
-	// following[1] = '\0';
-
-printf("\nFFFFFFFFFFFFFOLLOWING-----> %s", following);
-
+	ptrToLine = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (0);
-	next_line = read_until_new_or_end_line(fd, next_line, &following);
-	if (!next_line)
+	ptrToLine = read_until_new_or_end_line(fd, ptrToLine, ptrToNext);
+	if (!ptrToLine)
 		return (NULL);
-	if (following)
-	{
-		printf("\n EXISTE FOLLOWING-----> %s", following);
-		// next_line = ft_read_join(following, next_line);
-	}
-	else 
-		printf("\n NO FOLLOWING----->");
-	// following = get_following(next_line);
-	// next_line = remove_following(next_line);
-	return (next_line);
+	return (ptrToLine);
 }
-
-
-
-// {
-// 			following_lenth = rd_bytes - i;
-// 			if (following_lenth > 1)
-// 			{
-// 				printf("\n*****Sí que hay Following!!!!");
-// 				printf("\n*****following_lenth: %i", following_lenth);
-				
-// 				following = malloc((following_lenth ) * sizeof(char));
-// 				if (!following)
-// 					return (-1);
-// 				while (i < rd_bytes)
-// 				{
-// 					following[f] = s[i];
-// 					i++;
-// 					f++;
-// 				}
-// 				following[following_lenth] = '\0';
-// 				printf("\n*****Following: '%s'\n", following);
-
-// 			}
-// 			else
-// 			{
-// 				printf("\n*****el salto de linea en teoría coincide justo con el últiimo caracter del buffer");
-
-// 			}
-// 			return (1);
-// 		}
-
-
-
-
 
 
 
@@ -119,7 +67,7 @@ int	main(void)
 	while (i < 7)
 	{
 		line = get_next_line(fd2);
-		printf("\nline [%02d]: %s", i, line);
+		printf("\nline [%02d]: %s\n", i, line);
 		if(line[0]== 0)
 		{
 			printf("\nES UN JODIDO CERO. HEMOS TERMINADO DE LEER");

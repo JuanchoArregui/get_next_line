@@ -6,7 +6,7 @@
 /*   By: juancho <juancho@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:26:31 by jarregui          #+#    #+#             */
-/*   Updated: 2023/09/13 23:10:37 by juancho          ###   ########.fr       */
+/*   Updated: 2023/09/14 00:27:04 by juancho          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	find_new_or_end_line(char *buff, int rd_bytes, char **ptr_next, char **ptr_l
 		return (-1);
 	//1º miramos si había ya algo en ptr_line
 	if (*ptr_line != NULL && ft_strlen(*ptr_line) > 0) {
-		printf("\nHAY ALGO YA GUARDADO EN PTR_LINE: %p", *ptr_line);
+
 
 		while ((*ptr_line)[s] != '\0') 
 		{
@@ -55,10 +55,6 @@ int	find_new_or_end_line(char *buff, int rd_bytes, char **ptr_next, char **ptr_l
 	b = 0;
 	while (b < rd_bytes)
 	{
-	printf("\n---S: %i", s);
-	printf("\n---B: %i", b);
-	printf("\n");
-
 		if (buff[b] == '\0')
 		{
 			str[s] = buff[b];
@@ -74,9 +70,6 @@ int	find_new_or_end_line(char *buff, int rd_bytes, char **ptr_next, char **ptr_l
 			following_lenth = rd_bytes - b;
 			if (following_lenth > 0)
 			{
-				printf("\nENTRANDO en NEXT. following_lenth: %i", following_lenth);
-				printf("\nENTRANDO en NEXT. rd_bytes: %i", rd_bytes);
-
 				free_ptr_ptr(ptr_next);
 				*ptr_next = malloc((following_lenth + 1) * sizeof(char));
 				if (!*ptr_next)
@@ -84,10 +77,6 @@ int	find_new_or_end_line(char *buff, int rd_bytes, char **ptr_next, char **ptr_l
 				n = 0;
 				while (n < following_lenth)
 				{
-	printf("\n-----N: %i", n);
-	printf("\n-----B: %i", b);
-	printf("\n");
-					
 					(*ptr_next)[n] = buff[b];
 					n++;
 					b++;
@@ -103,7 +92,6 @@ int	find_new_or_end_line(char *buff, int rd_bytes, char **ptr_next, char **ptr_l
 		}
 	}
 	str[s] = '\0';
-	printf("\n*****SALIENDOOOOOOOO STRING: %s", str);
 	*ptr_line = str;
 	return (0);
 }
@@ -138,41 +126,57 @@ char	*read_until_new_or_end_line(int fd, char **ptr_line, char **ptr_next)
 	return (free(buff), *ptr_line);
 }
 
-char	*ft_read_join(char **ptr_line, char *buff)
+int	check_ptr_next(char **ptr_line, char **ptr_next)
 {
 	size_t	i;
 	size_t	j;
-	char	*str;
+	size_t	next_n_length;
+	size_t	following_length;
+	char	*line;
+	char	*next;
 
-	if (!*ptr_line)
+	next_n_length = ft_strlen_line(*ptr_next);
+	if (next_n_length > 0)
 	{
-		*ptr_line = (char *)malloc(1 * sizeof(char));
-		if (!*ptr_line)
-			return (NULL);
-		(*ptr_line)[0] = '\0';
+		line = malloc((next_n_length + 1) * sizeof(char));
+		if (line == NULL)
+			return (-1);
+		i = 0;
+		j = 0;
+		while (i < next_n_length)
+		{
+			line[i] = (*ptr_next)[i];
+			i++;
+			j++;
+		}
+		line[i] = '\0';
+		*ptr_line = line;
 	}
+	printf("\nCheck: i: %lu - next_n_length : %lu", i, next_n_length + 1);
 
-	str = malloc(sizeof(char) * (ft_strlen(*ptr_line) + ft_strlen(buff) + 1));
-	if (str == NULL)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while ((*ptr_line)[i] != '\0')
+	following_length = ft_strlen(*ptr_next) - next_n_length;
+	if (following_length > 0)
 	{
-		str[i] = (*ptr_line)[i];
-		i++;
+		next = malloc((following_length + 1) * sizeof(char));
+		if (next == NULL)
+			return (-1);
+		i = 0;
+		j = next_n_length + 1;
+		while (i < following_length)
+		{
+			next[i] = (*ptr_next)[j];
+			i++;
+			j++;
+		}
+		next[i] = '\0';
+		free_ptr_ptr(ptr_next);
+		*ptr_next = next;
+
 	}
-	while (j < ft_strlen(buff) && buff[j] != '\n' && buff[j] != '\0')
-	{
-		str[i] = buff[j];
-		i++;
-		j++;
+	else {
+		free_ptr_ptr(ptr_next);
 	}
-	if (buff[j] == '\n')
-		str[i++] = buff[j];
-	str[i] = '\0';
-	free_ptr_ptr(ptr_line);
-	return (str);
+	return (1);
 }
 
 size_t	ft_strlen(char *s)
@@ -183,6 +187,18 @@ size_t	ft_strlen(char *s)
 	if (!s)
 		return (0);
 	while (s[i] != '\0')
+		i++;
+	return (i);
+}
+
+size_t	ft_strlen_line(char *s)
+{
+	size_t	i;
+
+	i = 0;
+	if (!s)
+		return (0);
+	while (s[i] != '\0' && s[i] != '\n')
 		i++;
 	return (i);
 }

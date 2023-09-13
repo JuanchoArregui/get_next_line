@@ -6,7 +6,7 @@
 /*   By: juancho <juancho@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:27:04 by jarregui          #+#    #+#             */
-/*   Updated: 2023/09/13 23:17:17 by juancho          ###   ########.fr       */
+/*   Updated: 2023/09/14 00:06:02 by juancho          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,11 @@ char	*get_next_line(int fd);
 int	    find_new_or_end_line(char *buff, int rd_bytes, char **ptr_next, char **ptr_line);
 char	*read_until_new_or_end_line(int fd, char **ptr_line, char **ptr_next);
 
-char	*ft_read_join(char **ptr_line, char *buff);
+
+int     check_ptr_next(char **ptr_line, char **ptr_next);
 
 size_t	ft_strlen(char *s);
+size_t	ft_strlen_line(char *s);
 void	free_ptr_ptr(char **ptr);
 
 

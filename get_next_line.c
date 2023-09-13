@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jarregui <jarregui@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: juancho <juancho@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:02:50 by jarregui          #+#    #+#             */
-/*   Updated: 2023/09/12 14:29:51 by jarregui         ###   ########.fr       */
+/*   Updated: 2023/09/13 22:24:01 by juancho          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,25 +16,45 @@ char	*get_next_line(int fd)
 {
 	char		*ptr_line;
 	static char	*ptr_next;
+	int			i;
 
 	ptr_line = NULL;
-	printf("\n inicializandoget_next_line y checando ptr_next POINTER-----> %p", ptr_next);
-	if (ptr_next)
-		printf("\n inicializandoget_next_line y checando ptr_next STRING-----> %s", ptr_next);
+
+		printf("\n ******   ENTRANDO EN get_next_line   *********");
+
+
+
+	if (ptr_next != NULL)
+		printf("\n inicializando get_next_line y checando ptr_next POINTER-----> %p", ptr_next);
+	else
+		printf("\n TODAVIA NO HAY NADA ptr_next POINTER----->");
+
+
+		printf("\n ******   test   *********");
+
 
 	if (ptr_next != NULL && ft_strlen(ptr_next) > 0)
 	{
-		// i = 0;
-		// ptr_line = malloc((ft_strlen(ptr_next) + 1) * sizeof(char));
-		// while (i < ft_strlen(ptr_next) + 1)
-		// {
-		// 	ptr_line[i] = ptr_next[i];
-		// 	i++;
-		// }
-		// ptr_line[i] = '\0';
-		printf("\n EXISTE FOLLOWING-----> %s", ptr_next);
-		// free(ptr_next);
-		// ptr_next = NULL;
+		printf("\n\n\n------------------------------->loooop primario");
+		printf("\n ptr_next LENGTH-----> %lu", ft_strlen(ptr_next));
+		printf("\n ptr_next STRING-----> %s", ptr_next);
+		
+		
+		i = 0;
+		ptr_line = malloc((ft_strlen(ptr_next) + 1) * sizeof(char));
+		while (i < ft_strlen(ptr_next))
+		{
+			printf("\ni: %i", i);
+
+			ptr_line[i] = ptr_next[i];
+			i++;
+		}
+		ptr_line[i] = '\0';
+		free_ptr_ptr(&ptr_next);
+
+		printf("\n ptr_next -----> ptr_line %p", ptr_line);
+		printf("\n ptr_next -----> ptr_line %s", ptr_line);
+
 	}
 
 
@@ -87,14 +107,18 @@ int	main(void)
 	i = 1;
 	while (i < 7)
 	{
+		printf("\n\n\n\n\nLOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOP");
 		line = get_next_line(fd2);
-		printf("\nline [%02d]: %s\n", i, line);
-		if(line[0]== 0)
+
+
+		printf("\nline [%02d]: %s", i, line);
+		printf("\nline length[%02d]: %lu\n", i, ft_strlen(line));
+		if(line != NULL && line[0]== 0)
 		{
 			printf("\nES UN JODIDO CERO. HEMOS TERMINADO DE LEER");
 			break;
 		}
-		free(line);
+		free_ptr_ptr(&line);
 
 		
 		// line = get_next_line(fd1);

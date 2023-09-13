@@ -2,6 +2,23 @@
 #include <stdlib.h>
 #include <string.h>
 
+
+size_t	ft_strlen(char *s)
+{
+	size_t	i;
+
+	i = 0;
+	if (!s)
+		return (0);
+	while (s[i] != '\0')
+		i++;
+	return (i);
+}
+
+
+
+
+
 // Función 3: Recibe un puntero a la cadena estática y la modifica
 void funcion3(char **cadena) {
     
@@ -54,6 +71,28 @@ void funcion1(char **cadena) {
 
 int main() {
 	static char *cadenaEstatica;
+    printf("\nmain: address cadenaEstatica = %p\n", &cadenaEstatica);
+    printf("main: contenido cadenaEstatica = %p\n", cadenaEstatica);
+
+    cadenaEstatica = malloc(1 * sizeof(char));
+    printf("\nmain: address cadenaEstatica = %p\n", &cadenaEstatica);
+    printf("main: contenido cadenaEstatica = %p\n", cadenaEstatica);
+    free(cadenaEstatica);
+    printf("\nmain: address cadenaEstatica = %p\n", &cadenaEstatica);
+    printf("main: contenido cadenaEstatica = %p\n", cadenaEstatica);
+     cadenaEstatica = malloc(1 * sizeof(char));
+     printf("\nmain: address cadenaEstatica = %p\n", &cadenaEstatica);
+    printf("main: contenido cadenaEstatica = %p\n", cadenaEstatica);
+    free(*cadenaEstatica);
+    printf("\nmain: address cadenaEstatica = %p\n", &cadenaEstatica);
+    printf("main: contenido cadenaEstatica = %p\n", cadenaEstatica);
+
+    char        *test;
+    size_t      test_length;
+    test = NULL;
+    test_length = ft_strlen(test);
+    printf("main: test_length = %lu\n", test_length);
+
 
     printf("main: address cadenaEstatica = %p\n", &cadenaEstatica);
     printf("main: contenido cadenaEstatica = %p\n", cadenaEstatica);
@@ -62,10 +101,10 @@ int main() {
     // Llama a la Función 1
     funcion1(&cadenaEstatica);
 
-
     printf("main FINAL: pointer = %p\n", cadenaEstatica);
     printf("Cadena estática valor FINAL = %s\n", cadenaEstatica);
 
+    free(cadenaEstatica);
     
     return 0;
 }

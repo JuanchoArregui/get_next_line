@@ -6,7 +6,7 @@
 /*   By: juancho <juancho@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:02:50 by jarregui          #+#    #+#             */
-/*   Updated: 2023/09/13 22:24:01 by juancho          ###   ########.fr       */
+/*   Updated: 2023/09/13 23:04:41 by juancho          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*get_next_line(int fd)
 		printf("\n ******   test   *********");
 
 
-	if (ptr_next != NULL && ft_strlen(ptr_next) > 0)
+	if (ptr_next != NULL)
 	{
 		printf("\n\n\n------------------------------->loooop primario");
 		printf("\n ptr_next LENGTH-----> %lu", ft_strlen(ptr_next));
@@ -54,10 +54,9 @@ char	*get_next_line(int fd)
 
 		printf("\n ptr_next -----> ptr_line %p", ptr_line);
 		printf("\n ptr_next -----> ptr_line %s", ptr_line);
-
 	}
-
-
+	if (ptr_next != NULL )
+		return (ptr_line);
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (0);

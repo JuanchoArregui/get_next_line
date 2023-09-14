@@ -6,20 +6,12 @@
 /*   By: juancho <juancho@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:26:31 by jarregui          #+#    #+#             */
-/*   Updated: 2023/09/14 00:27:04 by juancho          ###   ########.fr       */
+/*   Updated: 2023/09/14 22:45:44 by juancho          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	free_ptr_ptr(char **ptr)
-{
-	if (*ptr != NULL)
-	{
-		free(*ptr);
-		*ptr = NULL;
-	}
-}
 
 int	find_new_or_end_line(char *buff, int rd_bytes, char **ptr_next, char **ptr_line)
 {
@@ -47,7 +39,7 @@ int	find_new_or_end_line(char *buff, int rd_bytes, char **ptr_next, char **ptr_l
 		}
 		printf("\n");
 
-		free_ptr_ptr(ptr_line);
+		ft_free_ptr_ptr(ptr_line);
 	} else {
 		printf("\nno hay nada EN PTR_LINE: %p", *ptr_line);
 	}
@@ -70,7 +62,7 @@ int	find_new_or_end_line(char *buff, int rd_bytes, char **ptr_next, char **ptr_l
 			following_lenth = rd_bytes - b;
 			if (following_lenth > 0)
 			{
-				free_ptr_ptr(ptr_next);
+				ft_free_ptr_ptr(ptr_next);
 				*ptr_next = malloc((following_lenth + 1) * sizeof(char));
 				if (!*ptr_next)
 					return (-1);
@@ -128,54 +120,28 @@ char	*read_until_new_or_end_line(int fd, char **ptr_line, char **ptr_next)
 
 int	check_ptr_next(char **ptr_line, char **ptr_next)
 {
-	size_t	i;
-	size_t	j;
-	size_t	next_n_length;
-	size_t	following_length;
-	char	*line;
-	char	*next;
+	size_t	next_length;
+	size_t	next_line_length;
+	size_t	remaining;
+	int		ok;
 
-	next_n_length = ft_strlen_line(*ptr_next);
-	if (next_n_length > 0)
+	next_length = ft_strlen(*ptr_next);
+	next_line_length = ft_strlen_line(*ptr_next);
+	if (next_line_length > 0)
 	{
-		line = malloc((next_n_length + 1) * sizeof(char));
-		if (line == NULL)
+		ok = ft_ptr_cpy_ptr(ptr_next, 0, next_line_length, ptr_line);
+		if (ok == -1)
 			return (-1);
-		i = 0;
-		j = 0;
-		while (i < next_n_length)
-		{
-			line[i] = (*ptr_next)[i];
-			i++;
-			j++;
-		}
-		line[i] = '\0';
-		*ptr_line = line;
 	}
-	printf("\nCheck: i: %lu - next_n_length : %lu", i, next_n_length + 1);
-
-	following_length = ft_strlen(*ptr_next) - next_n_length;
-	if (following_length > 0)
+	remaining = next_length - next_line_length;
+	if (remaining > 0)
 	{
-		next = malloc((following_length + 1) * sizeof(char));
-		if (next == NULL)
+		ok = ft_ptr_cpy_ptr(ptr_next, next_line_length, next_length, ptr_next);
+		if (ok == -1)
 			return (-1);
-		i = 0;
-		j = next_n_length + 1;
-		while (i < following_length)
-		{
-			next[i] = (*ptr_next)[j];
-			i++;
-			j++;
-		}
-		next[i] = '\0';
-		free_ptr_ptr(ptr_next);
-		*ptr_next = next;
-
 	}
-	else {
-		free_ptr_ptr(ptr_next);
-	}
+	else 
+		ft_free_ptr_ptr(ptr_next);
 	return (1);
 }
 
@@ -201,4 +167,37 @@ size_t	ft_strlen_line(char *s)
 	while (s[i] != '\0' && s[i] != '\n')
 		i++;
 	return (i);
+}
+
+void	ft_free_ptr_ptr(char **ptr)
+{
+	if (*ptr != NULL)
+	{
+		free(*ptr);
+		*ptr = NULL;
+	}
+}
+
+int	ft_ptr_cpy_ptr(char **src, size_t start, size_t end, char **dest)
+{
+	char	*str;
+	size_t	s;
+	size_t	i;
+
+	str = malloc((end + 1) * sizeof(char));
+	if (str == NULL)
+		return (-1);
+	s = 0;
+	i = start;
+	while (i < end)
+	{
+		str[s] = (*src)[i];
+		i++;
+		s++;
+	}
+	str[s] = '\0';
+	if (src == dest)
+		ft_free_ptr_ptr(src);
+	*dest = str;
+	return (1);
 }

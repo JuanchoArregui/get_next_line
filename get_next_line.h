@@ -6,7 +6,7 @@
 /*   By: juancho <juancho@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:27:04 by jarregui          #+#    #+#             */
-/*   Updated: 2023/09/14 00:06:02 by juancho          ###   ########.fr       */
+/*   Updated: 2023/09/14 22:47:08 by juancho          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-# define BUFFER_SIZE 10
+# define BUFFER_SIZE 100
 # endif
 
 # include <unistd.h>//this allows Read function
@@ -31,7 +31,8 @@ int     check_ptr_next(char **ptr_line, char **ptr_next);
 
 size_t	ft_strlen(char *s);
 size_t	ft_strlen_line(char *s);
-void	free_ptr_ptr(char **ptr);
+void	ft_free_ptr_ptr(char **ptr);
+int	    ft_ptr_cpy_ptr(char **src, size_t start, size_t end, char **dest);
 
 
 

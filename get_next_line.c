@@ -6,7 +6,7 @@
 /*   By: juancho <juancho@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:02:50 by jarregui          #+#    #+#             */
-/*   Updated: 2023/09/14 00:20:39 by juancho          ###   ########.fr       */
+/*   Updated: 2023/09/14 22:41:12 by juancho          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ char	*get_next_line(int fd)
 		return (NULL);
 	return (ptr_line);
 }
-
-
 
 int	main(void)
 {
@@ -95,7 +93,7 @@ int	main(void)
 			printf("\nES UN JODIDO CERO. HEMOS TERMINADO DE LEER");
 			break;
 		}
-		free_ptr_ptr(&line);
+		ft_free_ptr_ptr(&line);
 
 		
 		// line = get_next_line(fd1);

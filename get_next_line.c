@@ -6,7 +6,7 @@
 /*   By: juancho <juancho@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:02:50 by jarregui          #+#    #+#             */
-/*   Updated: 2023/09/14 22:41:12 by juancho          ###   ########.fr       */
+/*   Updated: 2023/09/14 22:53:36 by juancho          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ char	*get_next_line(int fd)
 {
 	char		*ptr_line;
 	static char	*ptr_next;
-	int			i;
 	int			check;
 
 	ptr_line = NULL;

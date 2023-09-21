@@ -6,7 +6,7 @@
 /*   By: jarregui <jarregui@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:26:31 by jarregui          #+#    #+#             */
-/*   Updated: 2023/09/21 13:33:26 by jarregui         ###   ########.fr       */
+/*   Updated: 2023/09/21 14:43:03 by jarregui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,19 +111,8 @@ char	*read_until_n_or_0(int fd, char **ptr_line, char **ptr_next)
 		if (new_or_end_line == -1)
 			return (NULL);
 	}
-
-
-	printf("\n------------------------------->CHECK 0");
-	if(*ptr_line[0] == 0)
-	{
-		printf("\n------------------------------->CHECK SI QUE ES 0!!!!!!!!!!!");
-		ft_free_ptr_ptr(ptr_line);
-		return (NULL);
-	}
-	else
-		printf("\n------------------------------->CHECK no es 0: '%c'", *ptr_line[0]);
-
-
+	if (*ptr_line[0] == 0)
+		return (ft_free_ptr_ptr(ptr_line), NULL);
 	return (free(buff), *ptr_line);
 }
 
@@ -139,18 +128,26 @@ size_t	ft_strlen(char *s)
 	return (i);
 }
 
-size_t	ft_strlen_line(char *s)
+size_t	ft_strlen_line_break(size_t length, char *s)
 {
 	size_t	i;
 
 	i = 0;
 	if (!s)
 		return (0);
-	while (s[i] != '\0' && s[i] != '\n')
+	while (i < length && s[i] != '\0')
+	{
+		if (s[i] == '\n')
+			return (1 + i);
 		i++;
-	if (s[i] == '\n')
-		return (1 + i);
-	return (i);
+	}
+	return (0);
+
+	// while (s[i] != '\0' && s[i] != '\n')
+	// 	i++;
+	// if (s[i] == '\n')
+	// 	return (1 + i);
+	// return (i);
 }
 
 void	ft_free_ptr_ptr(char **ptr)

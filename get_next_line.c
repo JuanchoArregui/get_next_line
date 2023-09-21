@@ -6,7 +6,7 @@
 /*   By: jarregui <jarregui@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:02:50 by jarregui          #+#    #+#             */
-/*   Updated: 2023/09/21 13:39:47 by jarregui         ###   ########.fr       */
+/*   Updated: 2023/09/21 14:48:30 by jarregui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,36 +14,44 @@
 
 int	check_ptr_next(char **ptr_line, char **ptr_next)
 {
-	size_t	next_length;
-	size_t	next_line_length;
+	size_t	nxt_len;
+	size_t	brk_len;
 	size_t	remaining;
 	int		ok;
 	int		check;
 
 	check = 0;
-	next_length = ft_strlen(*ptr_next);
-	next_line_length = ft_strlen_line(*ptr_next);
+	nxt_len = ft_strlen(*ptr_next);
+	brk_len = ft_strlen_line_break(nxt_len, *ptr_next);
+	remaining = nxt_len - brk_len;
 
-		printf("\n----->next_length: %lu", next_length);
-		printf("\n----->next_line_length: %lu", next_line_length);
 
-	if (next_line_length > 0)
+		printf("\n----->nxt_len: %lu", nxt_len);
+		printf("\n----->brk_len: %lu", brk_len);
+
+	if (brk_len > 0)
 	{
-		ok = ft_ptr_cpy_ptr(ptr_next, 0, next_line_length, ptr_line);
+		ok = ft_ptr_cpy_ptr(ptr_next, 0, brk_len, ptr_line);
 		if (ok == -1)
 			return (-1);
 		check = 1;
+		if (remaining > 0)
+		{
+			printf("\n----->hay remaining");
+			ok = ft_ptr_cpy_ptr(ptr_next, brk_len, nxt_len, ptr_next);
+			if (ok == -1)
+				return (-1);
+		}
+		else
+			ft_free_ptr_ptr(ptr_next);
 	}
-	remaining = next_length - next_line_length;
-	if (remaining > 0)
+	else if (nxt_len > 0)
 	{
-		printf("\n----->hay remaining");
-		ok = ft_ptr_cpy_ptr(ptr_next, next_line_length, next_length, ptr_next);
+		ok = ft_ptr_cpy_ptr(ptr_next, 0, nxt_len, ptr_line);
 		if (ok == -1)
 			return (-1);
-	}
-	else
 		ft_free_ptr_ptr(ptr_next);
+	}
 	return (check);
 }
 
@@ -91,6 +99,7 @@ int	main(void)
 	int		fd2;
 	int		fd3;
 	int		fd4;
+	int		fd5;
 	int fd_to_open;
 
 
@@ -98,8 +107,9 @@ int	main(void)
 	fd2 = open("tests/test_2.txt", O_RDONLY);
 	fd3 = open("tests/test_3.txt", O_RDONLY);
 	fd4 = open("tests/test_4.txt", O_RDONLY);
+	fd5 = open("tests/test_5.txt", O_RDONLY);
 
-	fd_to_open = fd2;
+	fd_to_open = fd5;
 
 	i = 1;
 	printf("\n\n\n\n\nEMPEZAMOS EL BUCLE DE LECTURA");
@@ -117,5 +127,6 @@ int	main(void)
 	close(fd2);
 	close(fd3);
 	close(fd4);
+	close(fd5);
 	return (0);
 }

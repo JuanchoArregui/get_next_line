@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juancho <juancho@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jarregui <jarregui@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:26:31 by jarregui          #+#    #+#             */
-/*   Updated: 2023/09/14 22:45:44 by juancho          ###   ########.fr       */
+/*   Updated: 2023/09/21 11:10:54 by jarregui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ int	find_new_or_end_line(char *buff, int rd_bytes, char **ptr_next, char **ptr_l
 
 	s = 0;
 	str = malloc(sizeof(char) * (ft_strlen(*ptr_line) + rd_bytes + 1));
-	printf("\nrd_bytes: %i", rd_bytes);
-	printf("\nLEngth de str: %li", ft_strlen(*ptr_line) + rd_bytes + 1);
+	printf("\n----------------------------------------------->LEngth de str: %li", ft_strlen(*ptr_line) + rd_bytes + 1);
 	if (str == NULL)
 		return (-1);
 	//1º miramos si había ya algo en ptr_line
@@ -41,7 +40,7 @@ int	find_new_or_end_line(char *buff, int rd_bytes, char **ptr_next, char **ptr_l
 
 		ft_free_ptr_ptr(ptr_line);
 	} else {
-		printf("\nno hay nada EN PTR_LINE: %p", *ptr_line);
+		printf("\n----------------------------------------------->no hay nada EN PTR_LINE: %p", *ptr_line);
 	}
 	//2º miramos el buffer
 	b = 0;
@@ -93,7 +92,7 @@ char	*read_until_new_or_end_line(int fd, char **ptr_line, char **ptr_next)
 	char	*buff;
 	int		rd_bytes;
 	int		new_or_end_line;
-	
+
 	rd_bytes = 1;
 	new_or_end_line = 0;
 	buff = malloc((BUFFER_SIZE + 1) * sizeof(char));
@@ -105,9 +104,9 @@ char	*read_until_new_or_end_line(int fd, char **ptr_line, char **ptr_next)
 		if (rd_bytes == -1)
 			return (free(buff), NULL);
 		buff[rd_bytes] = '\0';
-		printf("\n\n\n------------------------------->loooop secundario");
-		printf("\n--------->buff: %s", buff);
-		printf("\n--------->");
+		printf("\n------------------------------->loooop secundario");
+		printf("\n------------------------------->rd_bytes: %i", rd_bytes);
+		printf("\n------------------------------->buff: \"%s\"", buff);
 
 
 		new_or_end_line = find_new_or_end_line(buff, rd_bytes, ptr_next, ptr_line);
@@ -116,33 +115,6 @@ char	*read_until_new_or_end_line(int fd, char **ptr_line, char **ptr_next)
 		// *ptr_line = ft_read_join(ptr_line, buff);
 	}
 	return (free(buff), *ptr_line);
-}
-
-int	check_ptr_next(char **ptr_line, char **ptr_next)
-{
-	size_t	next_length;
-	size_t	next_line_length;
-	size_t	remaining;
-	int		ok;
-
-	next_length = ft_strlen(*ptr_next);
-	next_line_length = ft_strlen_line(*ptr_next);
-	if (next_line_length > 0)
-	{
-		ok = ft_ptr_cpy_ptr(ptr_next, 0, next_line_length, ptr_line);
-		if (ok == -1)
-			return (-1);
-	}
-	remaining = next_length - next_line_length;
-	if (remaining > 0)
-	{
-		ok = ft_ptr_cpy_ptr(ptr_next, next_line_length, next_length, ptr_next);
-		if (ok == -1)
-			return (-1);
-	}
-	else 
-		ft_free_ptr_ptr(ptr_next);
-	return (1);
 }
 
 size_t	ft_strlen(char *s)
@@ -166,6 +138,8 @@ size_t	ft_strlen_line(char *s)
 		return (0);
 	while (s[i] != '\0' && s[i] != '\n')
 		i++;
+	if (s[i] == '\n')
+		return (1 + i);
 	return (i);
 }
 

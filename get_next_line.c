@@ -6,89 +6,130 @@
 /*   By: jarregui <jarregui@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:02:50 by jarregui          #+#    #+#             */
-/*   Updated: 2023/09/21 14:48:30 by jarregui         ###   ########.fr       */
+/*   Updated: 2023/09/21 16:43:40 by jarregui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	check_ptr_next(char **ptr_line, char **ptr_next)
+int	find_n_or_0(char *buff, int rd_bytes, char **ptr_nxt, char **ptr_ln)
 {
-	size_t	nxt_len;
-	size_t	brk_len;
-	size_t	remaining;
+	char	*str;
+	int		s;
+	int		n;
+	int		b;
+	int		following_lenth;
+
+	s = 0;
+	str = malloc(sizeof(char) * (ft_strlen(*ptr_ln) + rd_bytes + 1));
+	if (str == NULL)
+		return (-1);
+	if (*ptr_ln != NULL && ft_strlen(*ptr_ln) > 0)
+	{
+		while ((*ptr_ln)[s] != '\0')
+		{
+			str[s] = (*ptr_ln)[s];
+			s++;
+		}
+		ft_free_ptr_ptr(ptr_ln);
+	}
+	b = 0;
+	while (b < rd_bytes)
+	{
+		if (buff[b] == '\0')
+		{
+			str[s] = buff[b];
+			*ptr_ln = str;
+			return (1);
+		}
+		else if (buff[b] == '\n')
+		{
+			str[s] = buff[b];
+			s++;
+			b++;
+			str[s] = '\0';
+			following_lenth = rd_bytes - b;
+			if (following_lenth > 0)
+			{
+				ft_free_ptr_ptr(ptr_nxt);
+				*ptr_nxt = malloc((following_lenth + 1) * sizeof(char));
+				if (!*ptr_nxt)
+					return (-1);
+				n = 0;
+				while (n < following_lenth)
+				{
+					(*ptr_nxt)[n] = buff[b];
+					n++;
+					b++;
+				}
+				(*ptr_nxt)[n] = '\0';
+			}
+			*ptr_ln = str;
+			return (1);
+		}
+		else
+		{
+			str[s] = buff[b];
+			s++;
+			b++;
+		}
+	}
+	str[s] = '\0';
+	*ptr_ln = str;
+	return (0);
+}
+
+int	check_ptr_nxt(char **ptr_ln, char **ptr_nxt, int nxt_len, int brk_len)
+{
 	int		ok;
 	int		check;
 
+	ok = 0;
 	check = 0;
-	nxt_len = ft_strlen(*ptr_next);
-	brk_len = ft_strlen_line_break(nxt_len, *ptr_next);
-	remaining = nxt_len - brk_len;
-
-
-		printf("\n----->nxt_len: %lu", nxt_len);
-		printf("\n----->brk_len: %lu", brk_len);
-
 	if (brk_len > 0)
 	{
-		ok = ft_ptr_cpy_ptr(ptr_next, 0, brk_len, ptr_line);
-		if (ok == -1)
-			return (-1);
+		ok += ft_ptr_cpy_ptr(ptr_nxt, 0, brk_len, ptr_ln);
 		check = 1;
-		if (remaining > 0)
-		{
-			printf("\n----->hay remaining");
-			ok = ft_ptr_cpy_ptr(ptr_next, brk_len, nxt_len, ptr_next);
-			if (ok == -1)
-				return (-1);
-		}
+		if (nxt_len - brk_len > 0)
+			ok += ft_ptr_cpy_ptr(ptr_nxt, brk_len, nxt_len, ptr_nxt);
 		else
-			ft_free_ptr_ptr(ptr_next);
+			ft_free_ptr_ptr(ptr_nxt);
 	}
 	else if (nxt_len > 0)
 	{
-		ok = ft_ptr_cpy_ptr(ptr_next, 0, nxt_len, ptr_line);
-		if (ok == -1)
-			return (-1);
-		ft_free_ptr_ptr(ptr_next);
+		ok += ft_ptr_cpy_ptr(ptr_nxt, 0, nxt_len, ptr_ln);
+		ft_free_ptr_ptr(ptr_nxt);
 	}
+	if (ok < 0)
+		return (-1);
 	return (check);
 }
 
 char	*get_next_line(int fd)
 {
-	char		*ptr_line;
-	static char	*ptr_next;
+	char		*ptr_ln;
+	static char	*ptr_nxt;
 	int			check;
+	int			nxt_len;
+	int			brk_len;
 
-	ptr_line = NULL;
-	if (ptr_next != NULL)
+	ptr_ln = NULL;
+	if (ptr_nxt != NULL)
 	{
-		printf("\n----->loooop primario");
-		printf("\n----->Queda NEXT y en teoría ptr_line debe tener algo");
-		printf("\n----->ptr_next AL ENTRAR = \"%s\"", ptr_next);
-
-
-		check = check_ptr_next(&ptr_line, &ptr_next);
-		printf("\n----->resultado de check_ptr_next. CHECK = %i", check);
+		nxt_len = ft_strlen(ptr_nxt);
+		brk_len = ft_strlen_line_break(nxt_len, ptr_nxt);
+		check = check_ptr_nxt(&ptr_ln, &ptr_nxt, nxt_len, brk_len);
 		if (check == -1)
 			return (NULL);
-
-		if (ptr_line != NULL )
-			printf("\n----->ptr_line AL SALIR = \"%s\"", ptr_line);
-		if (ptr_next != NULL )
-			printf("\n----->ptr_next  AL SALIR = \"%s\"", ptr_next);
-
-		// if (ptr_next != NULL && ptr_line != NULL )
 		if (check)
-			return (ptr_line);
+			return (ptr_ln);
 	}
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (0);
-	ptr_line = read_until_n_or_0(fd, &ptr_line, &ptr_next);
-	if (ptr_line == NULL)
+	ptr_ln = read_until_n_or_0(fd, &ptr_ln, &ptr_nxt);
+	if (ptr_ln == NULL)
 		return (NULL);
-	return (ptr_line);
+	return (ptr_ln);
 }
 
 int	main(void)
@@ -109,19 +150,19 @@ int	main(void)
 	fd4 = open("tests/test_4.txt", O_RDONLY);
 	fd5 = open("tests/test_5.txt", O_RDONLY);
 
-	fd_to_open = fd5;
+	fd_to_open = fd2;
 
 	i = 1;
 	printf("\n\n\n\n\nEMPEZAMOS EL BUCLE DE LECTURA");
 	line = get_next_line(fd_to_open);
 	while (line != NULL)
 	{
-		printf("\nline [%02d] - length (%lu): \"%s\"\n\n", i, ft_strlen(line), line);
+		printf("\nline [%02d] - length (%d): \"%s\"\n\n", i, ft_strlen(line), line);
 		i++;
 		ft_free_ptr_ptr(&line);
 		line = get_next_line(fd_to_open);
 	}
-	printf("\nHEMOS TERMINADO DE LEER!! (o ha habido un error)");
+	printf("\nTERMINAD LECTURA!!");
 	
 	close(fd1);
 	close(fd2);

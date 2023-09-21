@@ -6,7 +6,7 @@
 /*   By: jarregui <jarregui@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:26:31 by jarregui          #+#    #+#             */
-/*   Updated: 2023/09/21 11:36:52 by jarregui         ###   ########.fr       */
+/*   Updated: 2023/09/21 13:33:26 by jarregui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	find_n_or_0(char *buff, int rd_bytes, char **ptr_next, char **ptr_line)
 
 		while ((*ptr_line)[s] != '\0') 
 		{
-			printf("\n-S: %i", s);
+			// printf("\n-S: %i", s);
 			str[s] = (*ptr_line)[s];
 			s++;
 		}
@@ -111,6 +111,19 @@ char	*read_until_n_or_0(int fd, char **ptr_line, char **ptr_next)
 		if (new_or_end_line == -1)
 			return (NULL);
 	}
+
+
+	printf("\n------------------------------->CHECK 0");
+	if(*ptr_line[0] == 0)
+	{
+		printf("\n------------------------------->CHECK SI QUE ES 0!!!!!!!!!!!");
+		ft_free_ptr_ptr(ptr_line);
+		return (NULL);
+	}
+	else
+		printf("\n------------------------------->CHECK no es 0: '%c'", *ptr_line[0]);
+
+
 	return (free(buff), *ptr_line);
 }
 

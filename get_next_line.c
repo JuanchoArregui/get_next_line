@@ -6,7 +6,7 @@
 /*   By: jarregui <jarregui@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:02:50 by jarregui          #+#    #+#             */
-/*   Updated: 2023/09/21 11:25:40 by jarregui         ###   ########.fr       */
+/*   Updated: 2023/09/21 11:38:12 by jarregui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,24 +93,6 @@ int	main(void)
 	fd2 = open("tests/test_2.txt", O_RDONLY);
 	fd3 = open("tests/test_3.txt", O_RDONLY);
 
-
-	// i = 1;
-	// while (i < 10)
-	// {
-	// 	bytes_leidos = read(fd1, buff, 5);
-	// 	printf("\n[%i] - %i - %s\n", i, bytes_leidos, buff);
-	// 	i++;
-	// }
-	// close(fd1);
-
-	
-	
-	// fd1 = open("tests/test_2.txt", O_RDONLY);
-	// read_content = read_until_new_or_end_line(fd1, read_content);
-
-	// close(fd1);
-
-
 	i = 1;
 	printf("\n\n\n\n\nEMPEZAMOS EL BUCLE DE 7 LLAMADAS A GET NEXT LINE");
 	line = get_next_line(fd2);
@@ -132,26 +114,6 @@ int	main(void)
 		printf("\nERROR NO DEBERIAMOS ESTAR AQUI");
 
 	}
-
-
-	// i = 1;
-	// while (i < 7)
-	// {
-	// 	printf("\n\n************************ BUCLE[%02d]", i);
-
-	// 	printf("\nline [%02d] - length (%lu): \"%s\"", i, ft_strlen(line), line);
-	// 	if (line != NULL && line[0] == 0)
-	// 	{
-	// 		printf("\nES UN JODIDO CERO. HEMOS TERMINADO DE LEER");
-	// 		ft_free_ptr_ptr(&line);
-	// 		break ;
-	// 	}
-	// 	ft_free_ptr_ptr(&line);
-	// 	i++;
-	// }
-
-
-
 	close(fd1);
 	close(fd2);
 	close(fd3);

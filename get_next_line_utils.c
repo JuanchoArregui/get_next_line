@@ -6,14 +6,14 @@
 /*   By: jarregui <jarregui@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:26:31 by jarregui          #+#    #+#             */
-/*   Updated: 2023/09/21 11:10:54 by jarregui         ###   ########.fr       */
+/*   Updated: 2023/09/21 11:36:52 by jarregui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
 
-int	find_new_or_end_line(char *buff, int rd_bytes, char **ptr_next, char **ptr_line)
+int	find_n_or_0(char *buff, int rd_bytes, char **ptr_next, char **ptr_line)
 {
 	char	*str;
 	int		s;
@@ -87,7 +87,7 @@ int	find_new_or_end_line(char *buff, int rd_bytes, char **ptr_next, char **ptr_l
 	return (0);
 }
 
-char	*read_until_new_or_end_line(int fd, char **ptr_line, char **ptr_next)
+char	*read_until_n_or_0(int fd, char **ptr_line, char **ptr_next)
 {
 	char	*buff;
 	int		rd_bytes;
@@ -107,12 +107,9 @@ char	*read_until_new_or_end_line(int fd, char **ptr_line, char **ptr_next)
 		printf("\n------------------------------->loooop secundario");
 		printf("\n------------------------------->rd_bytes: %i", rd_bytes);
 		printf("\n------------------------------->buff: \"%s\"", buff);
-
-
-		new_or_end_line = find_new_or_end_line(buff, rd_bytes, ptr_next, ptr_line);
+		new_or_end_line = find_n_or_0(buff, rd_bytes, ptr_next, ptr_line);
 		if (new_or_end_line == -1)
 			return (NULL);
-		// *ptr_line = ft_read_join(ptr_line, buff);
 	}
 	return (free(buff), *ptr_line);
 }

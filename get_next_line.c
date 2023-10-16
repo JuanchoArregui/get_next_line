@@ -6,7 +6,7 @@
 /*   By: jarregui <jarregui@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:02:50 by jarregui          #+#    #+#             */
-/*   Updated: 2023/10/16 17:29:35 by jarregui         ###   ########.fr       */
+/*   Updated: 2023/10/16 17:53:37 by jarregui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ char	*get_next_line(int fd)
 	printf("\n******************************************");
 
 	ptr_ln = NULL;
+	check = 0;
 	if (ptr_nxt != NULL)
 	{
 		printf("\nExiste PTR_NEXT");

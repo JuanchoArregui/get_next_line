@@ -6,7 +6,7 @@
 /*   By: jarregui <jarregui@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:26:31 by jarregui          #+#    #+#             */
-/*   Updated: 2023/10/16 17:24:27 by jarregui         ###   ########.fr       */
+/*   Updated: 2023/10/16 17:59:14 by jarregui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,31 +91,34 @@ void	ft_free_ptr_ptr(char **ptr)
 int	ft_ptr_cpy_ptr(char **src, int s_ini, int s_end, char **dest)
 {
 	char	*str;
-	int		d_ini;
+	int		d_old;
 	int		d;
 
 	d = 0;
-	d_ini = ft_strlen(*dest);
-
-
-	printf("\nft_ptr_cpy_ptr d_ini: %d", d_ini);
-	printf("\nft_ptr_cpy_ptr d_ini: %d", d);
-	if (d < d_ini)
-		printf("\n-------->SIIIIIII se cumple que d < d_ini");
+	if (dest == NULL)
+		d_old = 0;
 	else
-		printf("\n-------->NO se cumple que d < d_ini");
+		d_old = ft_strlen(*dest);
 
 
-	str = malloc((d_ini + (s_end - s_ini) + 1) * sizeof(char));
+	printf("\nft_ptr_cpy_ptr d_old: %d", d_old);
+	printf("\nft_ptr_cpy_ptr d_old: %d", d);
+	if (d < d_old)
+		printf("\n-------->SIIIIIII se cumple que d < d_old");
+	else
+		printf("\n-------->NO se cumple que d < d_old");
+
+
+	str = malloc((d_old + (s_end - s_ini) + 1) * sizeof(char));
 	if (str == NULL)
 		return (-1);
 	str[0] = 0;
-	// while (d < d_ini)
-	// {
-	// 	printf("\nft_ptr_cpy_ptr había algo en dest. d: %d - d_ini: %d - char: \"%c\"", d, d_ini, (*dest)[d]);
-	// 	str[d] = (*dest)[d];
-	// 	d++;
-	// }
+	while (d < d_old)
+	{
+		printf("\nft_ptr_cpy_ptr había algo en dest. d: %d - d_old: %d - char: \"%c\"", d, d_old, (*dest)[d]);
+		str[d] = (*dest)[d];
+		d++;
+	}
 	while (s_ini < s_end)
 	{
 		str[d] = (*src)[s_ini];

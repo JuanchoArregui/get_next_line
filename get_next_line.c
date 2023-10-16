@@ -6,77 +6,43 @@
 /*   By: jarregui <jarregui@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:02:50 by jarregui          #+#    #+#             */
-/*   Updated: 2023/09/21 16:43:40 by jarregui         ###   ########.fr       */
+/*   Updated: 2023/10/16 17:29:35 by jarregui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	find_n_or_0(char *buff, int rd_bytes, char **ptr_nxt, char **ptr_ln)
+int	find_n_or_0(char **buff, int rd_bytes, char **ptr_nxt, char **ptr_ln)
 {
 	char	*str;
-	int		s;
-	int		n;
-	int		b;
-	int		following_lenth;
+	int		brk_len;
+	int		find;
 
-	s = 0;
+	find = 0;
 	str = malloc(sizeof(char) * (ft_strlen(*ptr_ln) + rd_bytes + 1));
 	if (str == NULL)
 		return (-1);
+	str[0] = 0;
 	if (*ptr_ln != NULL && ft_strlen(*ptr_ln) > 0)
+		ft_ptr_cpy_ptr(ptr_ln, 0, ft_strlen(*ptr_ln), &str);
+	brk_len = ft_strlen_n(rd_bytes, *buff);
+	ft_ptr_cpy_ptr(buff, 0, brk_len, &str);
+	if (brk_len > 0 && brk_len < rd_bytes)
 	{
-		while ((*ptr_ln)[s] != '\0')
-		{
-			str[s] = (*ptr_ln)[s];
-			s++;
-		}
-		ft_free_ptr_ptr(ptr_ln);
+		printf("\nrd_bytes: %d", rd_bytes);
+		printf("\nbrk_len: %d", brk_len);
+		
+		
+		ft_free_ptr_ptr(ptr_nxt);
+		*ptr_nxt = malloc((rd_bytes - brk_len + 1) * sizeof(char));
+		if (!*ptr_nxt)
+			return (-1);
+		ptr_nxt[0] = 0;
+		ft_ptr_cpy_ptr(buff, brk_len, rd_bytes, ptr_nxt);
+		find = 1;
 	}
-	b = 0;
-	while (b < rd_bytes)
-	{
-		if (buff[b] == '\0')
-		{
-			str[s] = buff[b];
-			*ptr_ln = str;
-			return (1);
-		}
-		else if (buff[b] == '\n')
-		{
-			str[s] = buff[b];
-			s++;
-			b++;
-			str[s] = '\0';
-			following_lenth = rd_bytes - b;
-			if (following_lenth > 0)
-			{
-				ft_free_ptr_ptr(ptr_nxt);
-				*ptr_nxt = malloc((following_lenth + 1) * sizeof(char));
-				if (!*ptr_nxt)
-					return (-1);
-				n = 0;
-				while (n < following_lenth)
-				{
-					(*ptr_nxt)[n] = buff[b];
-					n++;
-					b++;
-				}
-				(*ptr_nxt)[n] = '\0';
-			}
-			*ptr_ln = str;
-			return (1);
-		}
-		else
-		{
-			str[s] = buff[b];
-			s++;
-			b++;
-		}
-	}
-	str[s] = '\0';
 	*ptr_ln = str;
-	return (0);
+	return (find);
 }
 
 int	check_ptr_nxt(char **ptr_ln, char **ptr_nxt, int nxt_len, int brk_len)
@@ -99,6 +65,7 @@ int	check_ptr_nxt(char **ptr_ln, char **ptr_nxt, int nxt_len, int brk_len)
 	{
 		ok += ft_ptr_cpy_ptr(ptr_nxt, 0, nxt_len, ptr_ln);
 		ft_free_ptr_ptr(ptr_nxt);
+		// check = 1;
 	}
 	if (ok < 0)
 		return (-1);
@@ -113,22 +80,35 @@ char	*get_next_line(int fd)
 	int			nxt_len;
 	int			brk_len;
 
+	printf("\n******************************************");
+	printf("\n******************************************");
+
 	ptr_ln = NULL;
 	if (ptr_nxt != NULL)
 	{
+		printf("\nExiste PTR_NEXT");
 		nxt_len = ft_strlen(ptr_nxt);
-		brk_len = ft_strlen_line_break(nxt_len, ptr_nxt);
+		brk_len = ft_strlen_n(nxt_len, ptr_nxt);
 		check = check_ptr_nxt(&ptr_ln, &ptr_nxt, nxt_len, brk_len);
+		printf("\ncheck: %d", check);
+		printf("\ncheck ptr_ln: %s", ptr_ln);
+
 		if (check == -1)
 			return (NULL);
 		if (check)
+		{
+			printf("\ndentro de check - PTR_NEXT: \"%s\"", ptr_nxt);
 			return (ptr_ln);
+		}
 	}
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (0);
+	printf("\nNO Existe PTR_NEXT y vamos a read_until_n_or_0");
 	ptr_ln = read_until_n_or_0(fd, &ptr_ln, &ptr_nxt);
 	if (ptr_ln == NULL)
 		return (NULL);
+
+	printf("\nPTR_NEXT: \"%s\"", ptr_nxt);
 	return (ptr_ln);
 }
 

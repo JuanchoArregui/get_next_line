@@ -3,74 +3,70 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juancho <juancho@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jarregui <jarregui@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:02:50 by jarregui          #+#    #+#             */
-/*   Updated: 2023/10/17 23:37:55 by juancho          ###   ########.fr       */
+/*   Updated: 2023/10/18 11:19:22 by jarregui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-// int	find_n_or_0(char **buff, int rd_bytes, char **ptr_nxt, char **ptr_ln)
-// {
-// 	char	*str;
-// 	int		brk_len;
-// 	int		find;
+int	split_buff(char **ptr_buff, char **ptr_ln, char **ptr_nxt)
+{
+	char	*ptr_temp;
+	int		check;
+	int		brk_len;
 
-// 	find = 0;
-// 	str = malloc(sizeof(char) * (ft_strlen(*ptr_ln) + rd_bytes + 1));
-// 	if (str == NULL)
-// 		return (-1);
-// 	str[0] = 0;
-// 	if (*ptr_ln != NULL && ft_strlen(*ptr_ln) > 0)
-// 		ft_ptr_cpy_ptr(ptr_ln, 0, ft_strlen(*ptr_ln), &str);
-// 	brk_len = ft_strlen_n( *buff);
-// 	ft_ptr_cpy_ptr(buff, 0, brk_len, &str);
-// 	if (brk_len > 0 && brk_len < rd_bytes)
-// 	{
-// 		printf("\nrd_bytes: %d", rd_bytes);
-// 		printf("\nbrk_len: %d", brk_len);
-		
-		
-// 		ft_free_ptr_ptr(ptr_nxt);
-// 		*ptr_nxt = malloc((rd_bytes - brk_len + 1) * sizeof(char));
-// 		if (!*ptr_nxt)
-// 			return (-1);
-// 		ptr_nxt[0] = 0;
-// 		ft_ptr_cpy_ptr(buff, brk_len, rd_bytes, ptr_nxt);
-// 		find = 1;
-// 	}
-// 	*ptr_ln = str;
-// 	return (find);
-// }
+	if (!ptr_buff)
+		return (-1);
+	check = 0;
+	ptr_temp = NULL;
+	brk_len = ft_strlen_n(*ptr_buff);
+	if (brk_len > 0)
+	{
+		check += ft_ptr_cpy_ptr(ptr_buff, brk_len, 0, &ptr_temp);
+		(*ptr_buff)[brk_len] = '\0';
+	}
+	check += ft_ptr_cpy_ptr(ptr_buff, 0, ft_strlen(*ptr_ln), ptr_ln);
+	ft_free_ptr_ptr(ptr_buff);
+	if (ptr_nxt != NULL)
+		ft_free_ptr_ptr(ptr_nxt);
+	*ptr_nxt = ptr_temp;
+	if (check < 0)
+		return (-1);
+	if (brk_len > 0)
+		return (1);
+	return (0);
+}
 
-// int	check_ptr_nxt(char **ptr_ln, char **ptr_nxt, int nxt_len, int brk_len)
-// {
-// 	int		ok;
-// 	int		check;
+char	*read_until_n_or_0(int fd, char **ptr_ln, char **ptr_nxt)
+{
+	char	*buff;
+	int		rd_bytes;
+	int		new_or_end_line;
 
-// 	ok = 0;
-// 	check = 0;
-// 	if (brk_len > 0)
-// 	{
-// 		ok += ft_ptr_cpy_ptr(ptr_nxt, 0, brk_len, ptr_ln);
-// 		check = 1;
-// 		if (nxt_len - brk_len > 0)
-// 			ok += ft_ptr_cpy_ptr(ptr_nxt, brk_len, nxt_len, ptr_nxt);
-// 		else
-// 			ft_free_ptr_ptr(ptr_nxt);
-// 	}
-// 	else if (nxt_len > 0)
-// 	{
-// 		ok += ft_ptr_cpy_ptr(ptr_nxt, 0, nxt_len, ptr_ln);
-// 		ft_free_ptr_ptr(ptr_nxt);
-// 		// check = 1;
-// 	}
-// 	if (ok < 0)
-// 		return (-1);
-// 	return (check);
-// }
+	rd_bytes = 1;
+	new_or_end_line = 0;
+	while (!new_or_end_line && rd_bytes > 0)
+	{
+		buff = malloc((BUFFER_SIZE + 1) * sizeof(char));
+		if (!buff)
+			return (NULL);
+		rd_bytes = read(fd, buff, BUFFER_SIZE);
+		if (rd_bytes == -1)
+			return (free(buff), NULL);
+		else if (rd_bytes == 0)
+			return (free(buff), *ptr_ln);
+		buff[rd_bytes] = '\0';
+		new_or_end_line = split_buff(&buff, ptr_ln, ptr_nxt);
+		if (new_or_end_line < 0)
+			return (NULL);
+		else if (new_or_end_line == 1)
+			return (*ptr_ln);
+	}
+	return (ft_free_ptr_ptr(ptr_ln), NULL);
+}
 
 char	*get_next_line(int fd)
 {
@@ -78,75 +74,46 @@ char	*get_next_line(int fd)
 	static char	*ptr_nxt;
 	int			new_line;
 
-
-	printf("\n******************************************");
-	printf("\n******************************************");
-
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (0);
 	ptr_ln = NULL;
 	if (ptr_nxt != NULL)
 	{
-		printf("\nExiste PTR_NEXT");
 		new_line = split_buff(&ptr_nxt, &ptr_ln, &ptr_nxt);
 		if (new_line < 0)
-		{
-			// if (ptr_ln)
-			// 	ft_free_ptr_ptr(&ptr_ln);
-			// if (ptr_nxt)
-			// 	ft_free_ptr_ptr(&ptr_nxt);
 			return (NULL);
-		}
 		if (new_line == 1)
 			return (ptr_ln);
 	}
-	else
-		printf("\nNO Existe PTR_NEXT");
-	printf("\nvamos a read_until_n_or_0");
 	ptr_ln = read_until_n_or_0(fd, &ptr_ln, &ptr_nxt);
-	printf("\nPTR_NEXT: \"%s\"", ptr_nxt);
-	printf("\nPTR_LINE: \"%s\"", ptr_ln);
 	return (ptr_ln);
 }
 
-int	main(void)
-{
-	char	*line;
-	int		i;
-	int		fd1;
-	int		fd2;
-	int		fd3;
-	int		fd4;
-	int		fd5;
-	int fd_to_open;
+// int	main(void)
+// {
+// 	char	*line;
+// 	int		t;
+// 	int		i;
+// 	char	file_name[17];
+// 	int		fd;
 
-
-	fd1 = open("tests/test_1.txt", O_RDONLY);
-	fd2 = open("tests/test_2.txt", O_RDONLY);
-	fd3 = open("tests/test_3.txt", O_RDONLY);
-	fd4 = open("tests/test_4.txt", O_RDONLY);
-	fd5 = open("tests/test_5.txt", O_RDONLY);
-
-	fd_to_open = fd2;
-
-	i = 1;
-	printf("\n\n\n\n\nEMPEZAMOS EL BUCLE DE LECTURA");
-	line = get_next_line(fd_to_open);
-	while (line != NULL)
-	{
-		printf("\nline [%02d] - length (%d): \"%s\"\n\n", i, ft_strlen(line), line);
-		i++;
-		ft_free_ptr_ptr(&line);
-		line = get_next_line(fd_to_open);
-	}
-	ft_free_ptr_ptr(&line);
-	
-	printf("\nTERMINAD LECTURA!!");
-	
-	close(fd1);
-	close(fd2);
-	close(fd3);
-	close(fd4);
-	close(fd5);
-	return (0);
-}
+// 	t = 0;
+// 	while (t < 7)
+// 	{
+// 		i = 1;
+// 		sprintf(file_name, "%s%d%s", "tests/test_", t, ".txt");
+// 		fd = open(file_name, O_RDONLY);
+// 		printf("\n\n\n\n\nARCHIVO - %d - %s", t++, file_name);
+// 		line = get_next_line(fd);
+// 		while (line != NULL)
+// 		{
+// 			printf("\nline [%02d]: \"%s\"", i, line);
+// 			i++;
+// 			ft_free_ptr_ptr(&line);
+// 			line = get_next_line(fd);
+// 		}
+// 		ft_free_ptr_ptr(&line);
+// 		close(fd);
+// 	}
+// 	return (0);
+// }

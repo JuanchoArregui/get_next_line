@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jarregui <jarregui@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/22 15:02:50 by jarregui          #+#    #+#             */
-/*   Updated: 2023/10/31 16:05:06 by jarregui         ###   ########.fr       */
+/*   Created: 2023/10/31 14:17:26 by jarregui          #+#    #+#             */
+/*   Updated: 2023/10/31 16:06:44 by jarregui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 int	split_buff(char **ptr_buff, char **ptr_ln, char **ptr_nxt)
 {
@@ -71,49 +71,52 @@ char	*read_until_n_or_0(int fd, char **ptr_ln, char **ptr_nxt)
 char	*get_next_line(int fd)
 {
 	char		*ptr_ln;
-	static char	*ptr_nxt;
+	static char	*ptr_nxt[MAX_THREADS];
 	int			new_line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	ptr_ln = NULL;
-	if (ptr_nxt != NULL)
+	if (ptr_nxt[fd] != NULL)
 	{
-		new_line = split_buff(&ptr_nxt, &ptr_ln, &ptr_nxt);
+		new_line = split_buff(&ptr_nxt[fd], &ptr_ln, &ptr_nxt[fd]);
 		if (new_line < 0)
 			return (NULL);
 		if (new_line == 1)
 			return (ptr_ln);
 	}
-	ptr_ln = read_until_n_or_0(fd, &ptr_ln, &ptr_nxt);
+	ptr_ln = read_until_n_or_0(fd, &ptr_ln, &ptr_nxt[fd]);
 	return (ptr_ln);
 }
 
 // int	main(void)
 // {
 // 	char	*line;
-// 	int		t;
 // 	int		i;
-// 	char	file_name[17];
-// 	int		fd;
+// 	int		fd1;
+// 	int		fd2;
+// 	int		fd3;
 
-// 	t = 0;
-// 	while (t < 9)
+// 	fd1 = open("tests/test_2.txt", O_RDONLY);
+// 	fd2 = open("tests/test_3.txt", O_RDONLY);
+// 	fd3 = open("tests/test_4.txt", O_RDONLY);
+// 	i = 1;
+
+// 	while (i < 7)
 // 	{
-// 		i = 1;
-// 		sprintf(file_name, "%s%d%s", "tests/test_", t, ".txt");
-// 		fd = open(file_name, O_RDONLY);
-// 		printf("\n\n\n\n\nARCHIVO - %d - %s", t++, file_name);
-// 		line = get_next_line(fd);
-// 		while (line != NULL)
-// 		{
-// 			printf("\nline [%02d]: \"%s\"", i, line);
-// 			i++;
-// 			ft_free_ptr_ptr(&line);
-// 			line = get_next_line(fd);
-// 		}
+// 		line = get_next_line(fd1);
+// 		printf("\n\n\nline [NUMBERS - %02d]: \"%s\"", i, line);
 // 		ft_free_ptr_ptr(&line);
-// 		close(fd);
+// 		line = get_next_line(fd2);
+// 		printf("\nline [LOREM IPSUM %02d]: \"%s\"", i, line);
+// 		ft_free_ptr_ptr(&line);
+// 		line = get_next_line(fd3);
+// 		printf("\nline [LETTERS - %02d]: \"%s\"", i, line);
+// 		ft_free_ptr_ptr(&line);
+// 		i++;
 // 	}
+// 	close(fd1);
+// 	close(fd2);
+// 	close(fd3);
 // 	return (0);
 // }

@@ -6,7 +6,7 @@
 /*   By: jarregui <jarregui@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 14:17:26 by jarregui          #+#    #+#             */
-/*   Updated: 2023/10/31 16:49:47 by jarregui         ###   ########.fr       */
+/*   Updated: 2023/11/02 10:06:07 by jarregui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,74 +89,52 @@ char	*get_next_line(int fd)
 	return (ptr_ln);
 }
 
-int	main(void)
-{
-	char	*line1;
-	char	*line2;
-	char	*line3;
-	int		i;
-	int		fd1;
-	int		fd2;
-	int		fd3;
+// int	main(void)
+// {
+// 	char	*line1;
+// 	char	*line2;
+// 	char	*line3;
+// 	int		i;
+// 	int		fd1;
+// 	int		fd2;
+// 	int		fd3;
 
-	fd1 = open("tests/test_2.txt", O_RDONLY);
-	fd2 = open("tests/test_3.txt", O_RDONLY);
-	fd3 = open("tests/test_4.txt", O_RDONLY);
-	i = 1;
-	line1 = get_next_line(fd1);
-	line2 = get_next_line(fd2);
-	line3 = get_next_line(fd3);
+// 	fd1 = open("tests/test_2.txt", O_RDONLY);
+// 	fd2 = open("tests/test_3.txt", O_RDONLY);
+// 	fd3 = open("tests/test_4.txt", O_RDONLY);
+// 	i = 1;
+// 	line1 = get_next_line(fd1);
+// 	line2 = get_next_line(fd2);
+// 	line3 = get_next_line(fd3);
 
-	while (line1 != NULL || line2 != NULL || line3 != NULL)
-	{
-		printf("\n\n");
-		if (line1 != NULL)
-		{
-			printf("\nline [NUMBERS - %02d]: \"%s\"", i, line1);
-			ft_free_ptr_ptr(&line1);
-			line1 = get_next_line(fd1);
-		}
-		if (line2 != NULL)
-		{
-			printf("\nline [LOREM IPSUM - %02d]: \"%s\"", i, line2);
-			ft_free_ptr_ptr(&line2);
-			line2 = get_next_line(fd2);
-		}
-		if (line3 != NULL)
-		{
-			printf("\nline [LETTERS - %02d]: \"%s\"", i, line3);
-			ft_free_ptr_ptr(&line3);
-			line3 = get_next_line(fd3);
-		}
-		i++;
-	}
-	ft_free_ptr_ptr(&line1);
-	ft_free_ptr_ptr(&line2);
-	ft_free_ptr_ptr(&line3);
-	close(fd1);
-	close(fd2);
-	close(fd3);
-
-
-
-
-	// while (i < 7)
-	// {
-	// 	line = get_next_line(fd1);
-	// 	printf("\n\n\nline [NUMBERS - %02d]: \"%s\"", i, line);
-	// 	ft_free_ptr_ptr(&line);
-	// 	line = get_next_line(fd2);
-	// 	printf("\nline [LOREM IPSUM %02d]: \"%s\"", i, line);
-	// 	ft_free_ptr_ptr(&line);
-	// 	line = get_next_line(fd3);
-	// 	printf("\nline [LETTERS - %02d]: \"%s\"", i, line);
-	// 	ft_free_ptr_ptr(&line);
-	// 	i++;
-	// }
-	// close(fd1);
-	// close(fd2);
-	// close(fd3);
-
-
-	return (0);
-}
+// 	while (line1 != NULL || line2 != NULL || line3 != NULL)
+// 	{
+// 		printf("\n\n");
+// 		if (line1 != NULL)
+// 		{
+// 			printf("\nline [NUMBERS - %02d]: \"%s\"", i, line1);
+// 			ft_free_ptr_ptr(&line1);
+// 			line1 = get_next_line(fd1);
+// 		}
+// 		if (line2 != NULL)
+// 		{
+// 			printf("\nline [LOREM IPSUM - %02d]: \"%s\"", i, line2);
+// 			ft_free_ptr_ptr(&line2);
+// 			line2 = get_next_line(fd2);
+// 		}
+// 		if (line3 != NULL)
+// 		{
+// 			printf("\nline [LETTERS - %02d]: \"%s\"", i, line3);
+// 			ft_free_ptr_ptr(&line3);
+// 			line3 = get_next_line(fd3);
+// 		}
+// 		i++;
+// 	}
+// 	ft_free_ptr_ptr(&line1);
+// 	ft_free_ptr_ptr(&line2);
+// 	ft_free_ptr_ptr(&line3);
+// 	close(fd1);
+// 	close(fd2);
+// 	close(fd3);
+// 	return (0);
+// }

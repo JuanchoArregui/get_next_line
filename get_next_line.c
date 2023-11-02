@@ -6,7 +6,7 @@
 /*   By: jarregui <jarregui@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:02:50 by jarregui          #+#    #+#             */
-/*   Updated: 2023/10/31 16:05:06 by jarregui         ###   ########.fr       */
+/*   Updated: 2023/11/02 12:12:55 by jarregui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,5 +115,53 @@ char	*get_next_line(int fd)
 // 		ft_free_ptr_ptr(&line);
 // 		close(fd);
 // 	}
+// 	return (0);
+// }
+
+// int	main(void)
+// {
+// 	int		fd;
+// 	char	*line;
+
+// 	fd = open("tests/read_error.txt", O_RDONLY);
+
+// 	line = get_next_line(fd);
+// 	printf("\nline: \"%s\"", line);
+//  	ft_free_ptr_ptr(&line);
+// 	line = get_next_line(fd);
+// 	printf("\nline: \"%s\"", line);
+//  	ft_free_ptr_ptr(&line);
+
+// 	if (BUFFER_SIZE > 100) {
+// 		printf("\nBUFFER_SIZE > 100");
+// 		char *temp;
+// 		do {
+// 			temp = get_next_line(fd);
+// 			free(temp);
+// 		} while (temp != NULL);
+// 	}
+
+// 	line = get_next_line(fd);
+// 	printf("\nline: \"%s\"", line);
+//  	ft_free_ptr_ptr(&line);
+// 	close(fd);
+
+// 	fd = open("tests/read_error.txt", O_RDONLY);
+// 	line = get_next_line(fd);
+// 	printf("\n\nline: \"%s\"", line);
+//  	ft_free_ptr_ptr(&line);
+// 	line = get_next_line(fd);
+// 	printf("\nline: \"%s\"", line);
+//  	ft_free_ptr_ptr(&line);
+// 	line = get_next_line(fd);
+// 	printf("\nline: \"%s\"", line);
+//  	ft_free_ptr_ptr(&line);
+// 	line = get_next_line(fd);
+// 	printf("\nline: \"%s\"", line);
+//  	ft_free_ptr_ptr(&line);
+// 	line = get_next_line(fd);
+// 	printf("\nline: \"%s\"", line);
+//  	ft_free_ptr_ptr(&line);
+
 // 	return (0);
 // }

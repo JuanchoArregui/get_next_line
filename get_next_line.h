@@ -6,7 +6,7 @@
 /*   By: jarregui <jarregui@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:27:04 by jarregui          #+#    #+#             */
-/*   Updated: 2023/11/02 12:14:28 by jarregui         ###   ########.fr       */
+/*   Updated: 2023/11/02 16:04:40 by jarregui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 # include <fcntl.h>//this allows File Control functions, opend, close
 # include <stdio.h>//this allows PRINTF function
 
-int		split_buff(char **ptr_buff, char **ptr_ln, char **ptr_nxt);
-char	*read_until_n_or_0(int fd, char **ptr_ln, char **ptr_nxt);
+int		split_buff(char **ptr_buff, char **ptr_ln);
+char	*read_until_n_or_0(int fd, char **ptr_buff, char **ptr_ln);
 char	*get_next_line(int fd);
 int		ft_strlen(char *s);
 int		ft_strlen_n(char *s);

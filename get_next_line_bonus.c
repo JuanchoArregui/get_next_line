@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jarregui <jarregui@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: juancho <juancho@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 14:17:26 by jarregui          #+#    #+#             */
-/*   Updated: 2023/11/02 10:06:07 by jarregui         ###   ########.fr       */
+/*   Updated: 2023/11/16 09:28:15 by juancho          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ char	*read_until_n_or_0(int fd, char **ptr_ln, char **ptr_nxt)
 			return (NULL);
 		rd_bytes = read(fd, buff, BUFFER_SIZE);
 		if (rd_bytes == -1)
-			return (free(buff), NULL);
+			return (ft_free_ptr_ptr(&buff), NULL);
 		else if (rd_bytes == 0)
-			return (free(buff), *ptr_ln);
+			return (ft_free_ptr_ptr(&buff), *ptr_ln);
 		buff[rd_bytes] = '\0';
 		new_or_end_line = split_buff(&buff, ptr_ln, ptr_nxt);
 		if (new_or_end_line < 0)

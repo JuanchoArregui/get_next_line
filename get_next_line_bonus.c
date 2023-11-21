@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juancho <juancho@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jarregui <jarregui@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 14:17:26 by jarregui          #+#    #+#             */
-/*   Updated: 2023/11/16 09:28:15 by juancho          ###   ########.fr       */
+/*   Updated: 2023/11/21 12:45:01 by jarregui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,3 +138,7 @@ char	*get_next_line(int fd)
 // 	close(fd3);
 // 	return (0);
 // }
+
+// gcc -Wall -Wextra -Werror get_next_line_bonus.c 
+// get_next_line_utils_bonus.c get_next_line_bonus.h -fsanitize=address
+// && ./a.out

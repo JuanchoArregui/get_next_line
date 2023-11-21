@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juancho <juancho@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jarregui <jarregui@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:02:50 by jarregui          #+#    #+#             */
-/*   Updated: 2023/11/15 22:58:03 by juancho          ###   ########.fr       */
+/*   Updated: 2023/11/21 12:44:33 by jarregui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,8 @@ char	*get_next_line(int fd)
 // 	char	file_name[17];
 // 	int		fd;
 
-// 	t = 2;
-// 	while (t < 3)
+// 	t = 0;
+// 	while (t < 9)
 // 	{
 // 		i = 1;
 // 		sprintf(file_name, "%s%d%s", "tests/test_", t, ".txt");
@@ -114,3 +114,6 @@ char	*get_next_line(int fd)
 // 	}
 // 	return (0);
 // }
+
+// gcc -Wall -Wextra -Werror get_next_line.c get_next_line_utils.c 
+// get_next_line.h -fsanitize=address && ./a.out

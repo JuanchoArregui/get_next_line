@@ -6,7 +6,7 @@
 /*   By: jarregui <jarregui@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:27:04 by jarregui          #+#    #+#             */
-/*   Updated: 2023/11/21 13:34:02 by jarregui         ###   ########.fr       */
+/*   Updated: 2023/11/21 15:45:14 by jarregui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include <stdlib.h>//this allows Malloc function
 # include <fcntl.h>//this allows File Control functions, opend, close
 # include <stdio.h>//this allows PRINTF function
-# include <errno.h>//this allows Error handling
 
 int		split_buff(char **ptr_buff, char **ptr_ln);
 char	*read_until_n_or_0(int fd, char **ptr_buff, char **ptr_ln);

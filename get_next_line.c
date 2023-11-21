@@ -6,7 +6,7 @@
 /*   By: jarregui <jarregui@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:02:50 by jarregui          #+#    #+#             */
-/*   Updated: 2023/11/21 13:44:13 by jarregui         ###   ########.fr       */
+/*   Updated: 2023/11/21 15:47:17 by jarregui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ char	*get_next_line(int fd)
 	char		*ptr_ln;
 	static char	*ptr_buff;
 	int			new_line;
+	char		*aux;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
@@ -82,7 +83,10 @@ char	*get_next_line(int fd)
 		if (new_line == 1)
 			return (ptr_ln);
 	}
+	aux = ptr_ln;
 	ptr_ln = read_until_n_or_0(fd, &ptr_buff, &ptr_ln);
+	if (!ptr_ln)
+		ft_free_ptr_ptr(&aux);
 	return (ptr_ln);
 }
 
@@ -112,52 +116,36 @@ char	*get_next_line(int fd)
 // 		ft_free_ptr_ptr(&line);
 // 		close(fd);
 // 	}
+// system("leaks -q a.out");
 // 	return (0);
 // }
 
-// int	main(void)
+// int main(void)
 // {
-// 	char	*line;
-// 	int		fd;
-// 	char	*temp;
+// 	int fd = open("tests/read_error.txt", O_RDONLY);
+// 	char *linea;
 
-// 	fd = open("tests/read_error.txt", O_RDONLY);
-// 	if (fd == -1) {
-// 		perror("Error al abrir el archivo");
-// 		printf("errno: %d\n", errno);
-// 	} else {
-// 		line = get_next_line(fd);
-// 		printf("\nline debe dar \"aaaaaaaaaa\n\": \"%s\"", line);
-// 		line = get_next_line(fd);
-// 		printf("\nline debe dar \"bbbbbbbbbb\n\": \"%s\"", line);
-// 		do {
-// 			temp = get_next_line(fd);
-// 			free(temp);
-// 		} while (temp != NULL);
+// 	linea = get_next_line(fd);
+// 	printf("%s", linea);
+// 	free(linea);
 
-// 		line = get_next_line(fd);
-// 		printf("\nline debe dar \"NULL\": \"%s\"", line);
-// 		close(fd);
+// 	linea = get_next_line(40);//esto va a dar error de lectura
+// 	printf("<%s>", linea);
+// 	free(linea);
 
-// 		fd = open("tests/read_error.txt", O_RDONLY);
-// 		if (fd == -1) {
-// 			perror("Error al abrir el archivo");
-// 			printf("errno: %d\n", errno);
-// 		} else {
-// 			line = get_next_line(fd);
-// 			printf("\nline debe dar \"aaaaaaaaaa\n\": \"%s\"", line);
-// 			line = get_next_line(fd);
-// 			printf("\nline debe dar \"bbbbbbbbbb\n\": \"%s\"", line);
-// 			line = get_next_line(fd);
-// 			printf("\nline debe dar \"cccccccccc\n\": \"%s\"", line);
-// 			line = get_next_line(fd);
-// 			printf("\nline debe dar \"dddddddddd\n\": \"%s\"", line);
-// 			line = get_next_line(fd);
-// 			printf("\nline debe dar \"NULL\": \"%s\"", line);
-// 			close(fd);
-// 		}
-// 	}
-// 	return (0);
+// 	linea = get_next_line(fd);
+// 	printf("%s", linea);
+// 	free(linea);
+
+// 	linea = get_next_line(fd);
+// 	printf("%s", linea);
+// 	free(linea);
+
+// 	linea = get_next_line(fd);
+// 	printf("%s", linea);
+// 	free(linea);
+
+// 	system("leaks -q a.out");
 // }
 
 // gcc -Wall -Wextra -Werror get_next_line.c get_next_line_utils.c 

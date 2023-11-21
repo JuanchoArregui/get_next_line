@@ -6,7 +6,7 @@
 /*   By: jarregui <jarregui@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 14:17:26 by jarregui          #+#    #+#             */
-/*   Updated: 2023/11/21 12:45:01 by jarregui         ###   ########.fr       */
+/*   Updated: 2023/11/21 15:41:43 by jarregui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ char	*get_next_line(int fd)
 	char		*ptr_ln;
 	static char	*ptr_nxt[MAX_THREADS];
 	int			new_line;
+	char		*aux;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
@@ -85,7 +86,10 @@ char	*get_next_line(int fd)
 		if (new_line == 1)
 			return (ptr_ln);
 	}
+	aux = ptr_ln;
 	ptr_ln = read_until_n_or_0(fd, &ptr_ln, &ptr_nxt[fd]);
+	if (!ptr_ln)
+		ft_free_ptr_ptr(&aux);
 	return (ptr_ln);
 }
 

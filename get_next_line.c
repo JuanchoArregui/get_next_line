@@ -6,7 +6,7 @@
 /*   By: jarregui <jarregui@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:02:50 by jarregui          #+#    #+#             */
-/*   Updated: 2023/11/21 12:44:33 by jarregui         ###   ########.fr       */
+/*   Updated: 2023/11/21 13:44:13 by jarregui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,51 @@ char	*get_next_line(int fd)
 // 		}
 // 		ft_free_ptr_ptr(&line);
 // 		close(fd);
+// 	}
+// 	return (0);
+// }
+
+// int	main(void)
+// {
+// 	char	*line;
+// 	int		fd;
+// 	char	*temp;
+
+// 	fd = open("tests/read_error.txt", O_RDONLY);
+// 	if (fd == -1) {
+// 		perror("Error al abrir el archivo");
+// 		printf("errno: %d\n", errno);
+// 	} else {
+// 		line = get_next_line(fd);
+// 		printf("\nline debe dar \"aaaaaaaaaa\n\": \"%s\"", line);
+// 		line = get_next_line(fd);
+// 		printf("\nline debe dar \"bbbbbbbbbb\n\": \"%s\"", line);
+// 		do {
+// 			temp = get_next_line(fd);
+// 			free(temp);
+// 		} while (temp != NULL);
+
+// 		line = get_next_line(fd);
+// 		printf("\nline debe dar \"NULL\": \"%s\"", line);
+// 		close(fd);
+
+// 		fd = open("tests/read_error.txt", O_RDONLY);
+// 		if (fd == -1) {
+// 			perror("Error al abrir el archivo");
+// 			printf("errno: %d\n", errno);
+// 		} else {
+// 			line = get_next_line(fd);
+// 			printf("\nline debe dar \"aaaaaaaaaa\n\": \"%s\"", line);
+// 			line = get_next_line(fd);
+// 			printf("\nline debe dar \"bbbbbbbbbb\n\": \"%s\"", line);
+// 			line = get_next_line(fd);
+// 			printf("\nline debe dar \"cccccccccc\n\": \"%s\"", line);
+// 			line = get_next_line(fd);
+// 			printf("\nline debe dar \"dddddddddd\n\": \"%s\"", line);
+// 			line = get_next_line(fd);
+// 			printf("\nline debe dar \"NULL\": \"%s\"", line);
+// 			close(fd);
+// 		}
 // 	}
 // 	return (0);
 // }

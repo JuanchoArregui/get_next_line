@@ -6,7 +6,7 @@
 /*   By: jarregui <jarregui@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:02:50 by jarregui          #+#    #+#             */
-/*   Updated: 2023/11/21 15:47:17 by jarregui         ###   ########.fr       */
+/*   Updated: 2023/12/05 13:34:12 by jarregui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*read_until_n_or_0(int fd, char **ptr_buff, char **ptr_ln)
 	new_or_end_line = 0;
 	while (!new_or_end_line && rd_bytes > 0)
 	{
-		*ptr_buff = malloc((BUFFER_SIZE + 1) * sizeof(char));
+		*ptr_buff = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 		if (!(*ptr_buff))
 			return (NULL);
 		rd_bytes = read(fd, *ptr_buff, BUFFER_SIZE);

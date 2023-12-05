@@ -6,7 +6,7 @@
 /*   By: jarregui <jarregui@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:26:31 by jarregui          #+#    #+#             */
-/*   Updated: 2023/10/31 14:04:23 by jarregui         ###   ########.fr       */
+/*   Updated: 2023/12/05 13:34:34 by jarregui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	ft_ptr_cpy_ptr(char **src, int s_ini, int d_ini, char **dst)
 	if (!src)
 		return (-1);
 	s_len = ft_strlen(*src);
-	tmp = malloc(((s_len - s_ini) + d_ini + 1) * sizeof(char));
+	tmp = (char *)malloc(((s_len - s_ini) + d_ini + 1) * sizeof(char));
 	if (tmp == NULL)
 		return (-1);
 	d = 0;
